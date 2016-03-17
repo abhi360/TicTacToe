@@ -5,21 +5,38 @@ using UnityEngine.EventSystems;
 public class Block : MonoBehaviour,IPointerClickHandler
 {
     public int value;
-
+	public Button button;
     public BlockType type = BlockType.EMPTY;
 
+	public Image image;
     public BoardManager boardManager;
+
+
+	void Start()
+	{
+		image = GetComponent<Image> ();
+		button = GetComponent<Button>();
+	}
 
     public void OnPointerClick(PointerEventData eventData)
     {
-        boardManager.selectedBlock = this;
-        boardManager.OnClickBlock();
-        if (type == BlockType.CROSS)
-            GetComponent<Image>().color = Color.green;
-        else
-            GetComponent<Image>().color = Color.blue;
-        GetComponent<Button>().interactable = false;
+		if (!button.IsInteractable ())
+			return;
+
+		if (boardManager.gameType == GameType.TWO)
+		{
+			boardManager.selectedBlock = this;
+			boardManager.OnClickBlockNonAI ();
+
+		} else
+		{
+			boardManager.selectedBlock = this;
+			boardManager.OnClickBlockNonAI ();
+
+			boardManager.OnClickBlockAI ();
+		}
     }
+		
 }
 
 public enum BlockType

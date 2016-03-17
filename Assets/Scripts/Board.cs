@@ -6,6 +6,7 @@ public class Board : MonoBehaviour
     public Block[,] blocks { get; private set; }
 
     private RectTransform gameBoardRect;
+
     public int boardSizeX, boardSizeY;
 
     private int[] magicSquareArr = new int[] { 4, 9, 2, 3, 5, 7, 8, 1, 6 };
@@ -96,4 +97,37 @@ public class Board : MonoBehaviour
         Destroy(gameBoard);
     }
     
+	public Block FindBlock(int value)
+	{
+		Block bl = null;
+
+		for (int i = 0; i < boardSizeY; i++)
+		{
+			for (int j = 0; j < boardSizeX; j++)
+			{
+				if (blocks [i, j].value == value)
+				{
+					bl = blocks [i, j];
+				}
+			}
+		}
+
+		return bl;
+	}
+
+	public Block GetBlock(int i,int j)
+	{
+		return blocks [i, j];
+	}
+
+	public void Deactivate()
+	{
+		for (int i = 0; i < boardSizeY; i++)
+		{
+			for (int j = 0; j < boardSizeX; j++)
+			{
+				blocks [i, j].button.interactable = false;
+			}
+		}
+	}
 }
